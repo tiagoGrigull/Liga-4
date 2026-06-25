@@ -13,7 +13,7 @@ public class App {
     public void escolhaCor() {
         int cor;
         do {
-            System.out.println("Escolha um acor para jogar:");
+            System.out.println("Escolha uma cor para jogar:");
             System.out.println("1- Vermelho");
             System.out.println("2- Amarelo");
             cor = sc.nextInt();
@@ -132,28 +132,71 @@ public class App {
         return false;
     }
 
-    public static void main(String[] args) {
-        App app = new App();
-
-        app.iniciarTabuleiro();
-        app.escolhaCor();
-
-        while (true) {
-            app.mostrarTabuleiro();
-            app.jogada();
-
-            if (app.verificarVitoria(app.jogador)) {
-                app.mostrarTabuleiro();
-                System.out.println("Você Venceu");
-                break;
-            }
-
-            app.computadorJogada();
-            if (app.verificarVitoria(app.computador)) {
-                app.mostrarTabuleiro();
-                System.out.println("Computador Venceu");
-                break;
+    public boolean verificarEmpate() {
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                if (table[i][j].equals("B")) {
+                    return false;
+                }
             }
         }
+        return true;
     }
+
+    public boolean jogarNovamente() {
+        System.out.println("Jogar Novamente\nS(sim)\nN(não)");
+        char jogarNovamente = sc.next().toUpperCase().charAt(0);
+        if (jogarNovamente != 'S') {
+            return false;
+        }
+        return true;
+    }
+
+    public App() {
+        do {
+            iniciarTabuleiro();
+            escolhaCor();
+
+            while (true) {
+
+                mostrarTabuleiro();
+
+                jogada();
+
+                if (verificarVitoria(jogador)) {
+                    mostrarTabuleiro();
+                    System.out.println("Você Venceu");
+                    break;
+                }
+
+                if (verificarEmpate()) {
+                    mostrarTabuleiro();
+                    System.out.println("Empate!");
+                    break;
+                }
+
+                computadorJogada();
+
+                if (verificarVitoria(computador)) {
+                    mostrarTabuleiro();
+                    System.out.println("Computador Venceu");
+                    break;
+                }
+
+                if (verificarEmpate()) {
+                    mostrarTabuleiro();
+                    System.out.println("Empate!");
+                    break;
+                }
+
+            }
+
+        } while (jogarNovamente());
+    }
+
+    public static void main(String[] args) {
+        new App();
+
+    }
+
 }
