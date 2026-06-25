@@ -52,20 +52,31 @@ public class App {
     }
 
     public boolean verificarCasa(int coluna) {
-        return table[0][coluna].equals("B");
+        if (table[0][coluna].equals("B")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void jogada() {
-        System.out.println("Escolha uma coluna:");
-        int num = sc.nextInt() - 1;
-        if (!verificarCasa(num)) {
-            System.out.println("Coluna Cheia");
-            return;
-        }
-        for (int i = linhas - 1; i >= 0; i--) {
-            if (table[i][num].equals("B")) {
-                table[i][num] = jogador;
-                break;
+
+        int num;
+        while (true) {
+
+            System.out.println("Escolha uma coluna:");
+            num = sc.nextInt() - 1;
+
+            if (!verificarCasa(num)) {
+                System.out.println("Coluna Cheia");
+                continue;
+            }
+
+            for (int i = linhas - 1; i >= 0; i--) {
+                if (table[i][num].equals("B")) {
+                    table[i][num] = jogador;
+                    return;
+                }
             }
         }
     }
